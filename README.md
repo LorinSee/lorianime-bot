@@ -28,25 +28,41 @@ Telegram-бот для любителей аниме: случайные тай�
 ## Установка
 
 1. Клонируй репозиторий:
-`git clone https://github.com/LorinSee/lorianime-bot.git`
-`cd lorianime-bot`
+
+   ```
+   git clone https://github.com/LorinSee/lorianime-bot.git
+   cd lorianime-bot
+   ```
 
 2. Создай виртуальное окружение:
-`python -m venv .venv`
-`.venv\Scripts\activate # Windows`
-`source .venv/bin/activate # Linux/Mac`
+
+   ```
+   python -m venv .venv
+   .venv\Scripts\activate      # Windows
+   source .venv/bin/activate   # Linux/Mac
+   ```
 
 3. Установи зависимости:
-`pip install -r requirements.txt`
+
+   ```
+   pip install -r requirements.txt
+   ```
 
 4. Создай `.env` на основе `.env.example` и вставь свой токен:
-`BOT_TOKEN=твой_токен_от_BotFather`
 
-5. Запусти: 
-`python main.py`
+   ```
+   BOT_TOKEN=твой_токен_от_BotFather
+   ```
+
+5. Запусти:
+
+   ```
+   python main.py
+   ```
 
 ## Структура проекта
 
+```
 LoriAnimeBot/
 ├── main.py
 ├── requirements.txt
@@ -54,15 +70,16 @@ LoriAnimeBot/
 ├── .gitignore
 ├── README.md
 └── handlers/
-├── init.py
-├── routes.py # склейка роутеров
-├── random.py # рандом + /start
-├── search.py # поиск с FSM
-├── description.py # описание + назад
-├── sender.py # отправка карточек
-├── keyboards.py # все клавиатуры
-├── api.py # запросы к Shikimori
-└── utils.py # утилиты (форматирование, чистка)
+    ├── __init__.py
+    ├── routes.py         # склейка роутеров
+    ├── random.py         # рандом + /start
+    ├── search.py         # поиск с FSM
+    ├── description.py    # описание + назад
+    ├── sender.py         # отправка карточек
+    ├── keyboards.py      # все клавиатуры
+    ├── api.py            # запросы к Shikimori
+    └── utils.py          # утилиты
+```
 
 ## Roadmap
 
@@ -79,7 +96,7 @@ LoriAnimeBot/
 
 ## Devlog
 
-Прогресс разработки — в Telegram-канале: [L.S Devlog](https://t.me/lorsdevlog)
+Прогресс разработки — в Telegram-канале: [L.S Devlog](https://t.me/твой_канал)
 
 ## Лицензия
 
