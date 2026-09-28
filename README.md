@@ -64,21 +64,24 @@ Telegram-бот для любителей аниме: случайные тай�
 
 ```
 LoriAnimeBot/
-├── main.py
+├── main.py           
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
 ├── README.md
+├── bot.db                 
 └── handlers/
     ├── __init__.py
-    ├── routes.py         # склейка роутеров
-    ├── random.py         # рандом + /start
-    ├── search.py         # поиск с FSM
-    ├── description.py    # описание + назад
-    ├── sender.py         # отправка карточек
-    ├── keyboards.py      # все клавиатуры
-    ├── api.py            # запросы к Shikimori
-    └── utils.py          # утилиты
+    ├── routes.py           # склейка роутеров
+    ├── random.py           # /start + рандом + кнопка «Ещё аниме»
+    ├── search.py           # поиск с FSM
+    ├── description.py      # описание + кнопка «Назад»
+    ├── profile.py          # профиль пользователя
+    ├── sender.py           # отправка карточек аниме
+    ├── keyboards.py        # все клавиатуры
+    ├── api.py              # запросы к Shikimori API
+    ├── db.py               # SQLite: users, статистика
+    └── utils.py            # утилиты: форматирование, чистка описаний
 ```
 
 ## Roadmap
@@ -88,8 +91,8 @@ LoriAnimeBot/
 - [x] Жанры и описания
 - [x] Поиск по названию
 - [ ] Рандом по жанру
-- [ ] База данных (SQLite)
-- [ ] Регистрация / профиль
+- [x] База данных (SQLite)
+- [x] Регистрация / профиль
 - [ ] Списки аниме
 - [ ] Подписка через Telegram Stars
 - [ ] Эксклюзивные функции для подписчиков
