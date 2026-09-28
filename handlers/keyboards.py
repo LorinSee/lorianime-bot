@@ -7,8 +7,8 @@ from aiogram.types import (
 
 MAIN_KEYBOARD = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text="Случайное аниме")],
-        [KeyboardButton(text="Поиск")],
+        [KeyboardButton(text="Профиль")],
+        [KeyboardButton(text="Случайное аниме"), KeyboardButton(text="Поиск")],
     ],
     resize_keyboard=True,
     is_persistent=True,
