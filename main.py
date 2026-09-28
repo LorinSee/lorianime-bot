@@ -4,6 +4,7 @@ from os import getenv
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 
+from handlers.db import init_db
 from handlers.routes import router
 
 load_dotenv()
@@ -14,8 +15,8 @@ dp.include_router(router)
 
 
 async def main():
+    await init_db()
     bot = Bot(token=TOKEN)
-
     print("Start...")
     await dp.start_polling(bot)
 
