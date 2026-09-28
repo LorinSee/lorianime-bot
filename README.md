@@ -96,10 +96,6 @@ LoriAnimeBot/
 - [ ] Подписка через Telegram Stars
 - [ ] Эксклюзивные функции для подписчиков
 
-## Devlog
-
-Прогресс разработки — в Telegram-канале: [L.S Devlog](https://t.me/твой_канал)
-
 ## Лицензия
 
 MIT
