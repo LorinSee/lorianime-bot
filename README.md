@@ -4,7 +4,7 @@ Telegram-бот, который показывает случайное аним
 
 ## Стек
 - Python 3.12
-- aiogram 3.x
+- aiogram 3
 - aiohttp
 - Shikimori API
 
