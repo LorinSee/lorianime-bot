@@ -3,9 +3,9 @@ import traceback
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, LinkPreviewOptions
 
-from handlers.api import fetch_anime_by_id
-from handlers.keyboards import build_back_keyboard, build_main_keyboard
-from handlers.utils import build_caption, clean_description
+from app.api import fetch_anime_by_id
+from app.keyboards import build_back_keyboard, build_main_keyboard
+from app.utils import build_caption, clean_description
 
 router = Router()
 

@@ -4,8 +4,8 @@ from os import getenv
 from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
 
-from handlers.db import init_db
-from handlers.routes import router
+from app.db import init_db
+from app.routes import router
 
 load_dotenv()
 TOKEN = str(getenv("BOT_TOKEN"))

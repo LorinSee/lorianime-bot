@@ -4,10 +4,10 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
 
-from handlers.api import fetch_random_anime
-from handlers.db import add_user, get_user
-from handlers.keyboards import MAIN_KEYBOARD
-from handlers.sender import send_anime
+from app.api import fetch_random_anime
+from app.db import add_user, get_user
+from app.keyboards import MAIN_KEYBOARD
+from app.sender import send_anime
 
 router = Router()
 

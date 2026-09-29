@@ -1,7 +1,7 @@
 from aiogram.types import LinkPreviewOptions
 
-from handlers.keyboards import build_main_keyboard
-from handlers.utils import build_caption, get_image_url
+from app.keyboards import build_main_keyboard
+from app.utils import build_caption, get_image_url
 
 
 async def send_anime(target, anime, from_search=False, chat_id=None):

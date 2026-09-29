@@ -5,9 +5,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 
-from handlers.api import fetch_anime_by_id, fetch_anime_search
-from handlers.keyboards import build_cancel_keyboard, build_search_button
-from handlers.sender import send_anime
+from app.api import fetch_anime_by_id, fetch_anime_search
+from app.keyboards import build_cancel_keyboard, build_search_button
+from app.sender import send_anime
 
 router = Router()
 
