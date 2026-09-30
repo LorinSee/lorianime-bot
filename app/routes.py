@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from handlers import description, profile, random, search
+from app.handlers import description, profile, random, search
 
 router = Router()
 router.include_router(random.router)

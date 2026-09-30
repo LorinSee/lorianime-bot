@@ -67,3 +67,33 @@ def build_search_button(anime):
     return InlineKeyboardButton(
         text=label[:60], callback_data=f"search:{anime.get('id')}"
     )
+
+
+def build_profile_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Настройки", callback_data="profile:settings")],
+        ]
+    )
+
+
+def build_settings_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Изменить имя", callback_data="settings:name")],
+            [
+                InlineKeyboardButton(
+                    text="Изменить описание", callback_data="settings:bio"
+                )
+            ],
+            [InlineKeyboardButton(text="Назад", callback_data="settings:back")],
+        ]
+    )
+
+
+def build_cancel_keyboard_simple():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Отменить", callback_data="settings:cancel")]
+        ]
+    )
