@@ -65,8 +65,10 @@ def get_genres_text(anime):
 def clean_description(text):
     if not text:
         return "Нет описания"
-    text = re.sub(r"\[anime=\d+\](.*?)\[/anime\]", r"\1", text)
-    text = re.sub(r"\[character=\d+\](.*?)\[/character\]", r"\1", text)
+    text = re.sub(
+        r"\[/?(?:character|anime|manga|ranobe|person)(?:=[^\]]+)?\]", "", text
+    )
+    text = re.sub(r"\[\[.*?\]\]", "", text)
     text = re.sub(r"\[.*?\]", "", text)
     return text.strip()
 
@@ -85,7 +87,10 @@ def build_caption(anime):
     episodes_text = escape(
         get_episodes_text(kind, kind_text, status, episodes, episodes_aired)
     )
-    anime_url = "https://shikimori.one" + anime.get("url", "")
+    url = anime.get("url", "")
+    if url and not url.startswith("http"):
+        url = "https://shikimori.one" + url
+    anime_url = url
 
     return (
         f"<b>Название:</b> {title}\n\n"

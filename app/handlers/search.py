@@ -26,24 +26,30 @@ async def search_start(message: Message, state: FSMContext):
 
 @router.message(SearchStates.waiting_for_query)
 async def search_process(message: Message, state: FSMContext):
-    query = message.text
-    await state.clear()
+    try:
+        query = message.text
+        await state.clear()
 
-    if not query or len(query) < 3:
-        await message.answer("Слишком короткий запрос, введи хотя бы 3 символа")
-        return
+        if not query or len(query) < 3:
+            await message.answer("Слишком короткий запрос, введи хотя бы 3 символа")
+            return
 
-    results = await fetch_anime_search(query)
-    if not results:
-        await message.answer(f"По запросу «{query}» ничего не найдено")
-        return
+        results = await fetch_anime_search(query)
+        print("RESULTS:", results)
 
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[[build_search_button(a)] for a in results]
-    )
-    await message.answer(
-        f"<b>Найдено {len(results)}:</b>", parse_mode="HTML", reply_markup=keyboard
-    )
+        if not results:
+            await message.answer(f"По запросу «{query}» ничего не найдено")
+            return
+
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[[build_search_button(a)] for a in results]
+        )
+        await message.answer(
+            f"<b>Найдено {len(results)}:</b>", parse_mode="HTML", reply_markup=keyboard
+        )
+    except Exception as e:
+        print("ОШИБКА SEARCH:", type(e).__name__, e)
+        traceback.print_exc()
 
 
 @router.callback_query(F.data == "cancel_search")
@@ -68,7 +74,7 @@ async def search_result_callback(callback: CallbackQuery):
         except Exception as e:
             print("Не удалось удалить сообщение:", e)
 
-        await send_anime(callback.bot, anime, from_search=True, chat_id=chat_id)
+        await send_anime(callback.bot, anime, source="search", chat_id=chat_id)
         await callback.answer()
     except Exception as e:
         print("ОШИБКА:", type(e).__name__, e)

@@ -4,10 +4,10 @@ from app.keyboards import build_main_keyboard
 from app.utils import build_caption, get_image_url
 
 
-async def send_anime(target, anime, from_search=False, chat_id=None):
+async def send_anime(target, anime, source="random", chat_id=None, genre_id=None):
     caption = build_caption(anime)
     image_url = get_image_url(anime)
-    keyboard = build_main_keyboard(anime.get("id"), from_search=from_search)
+    keyboard = build_main_keyboard(anime.get("id"), source=source, genre_id=genre_id)
 
     print("ОТПРАВЛЯЮ:", anime.get("russian") or anime.get("name"), anime.get("score"))
 

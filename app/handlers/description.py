@@ -61,7 +61,7 @@ async def back_callback(callback: CallbackQuery):
 
         from_search = source == "search"
         caption = build_caption(anime)
-        keyboard = build_main_keyboard(anime_id, from_search=from_search)
+        keyboard = build_main_keyboard(anime_id, source=source)
 
         if callback.message.photo:
             await callback.message.edit_caption(
