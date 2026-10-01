@@ -23,7 +23,9 @@ Telegram-бот для любителей аниме: случайные тай�
 - Python 3.12
 - aiogram 3
 - aiohttp
-- SQLite + SQLAlchemy (план)
+- Shikimori GraphQL API
+- SQLite + aiosqlite
+- SQLAlchemy (план)
 - Telegram Stars (план, для оплаты)
 
 ## Установка
