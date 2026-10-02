@@ -25,6 +25,11 @@ class GenrePagination(CallbackData, prefix="genre_page"):
     page: int
 
 
+class SearchPagination(CallbackData, prefix="search_page"):
+    query: str
+    page: int
+
+
 def build_main_keyboard(anime_id, source="random", genre_id=None):
     buttons = []
 
@@ -162,6 +167,45 @@ def build_genres_keyboard(genres: list, page: int, per_page=8):
         nav_buttons.append(
             InlineKeyboardButton(
                 text="➡️", callback_data=GenrePagination(page=page + 1).pack()
+            )
+        )
+
+    if nav_buttons:
+        builder.row(*nav_buttons)
+
+    return builder.as_markup()
+
+
+def build_search_results_keyboard(results, query, page, per_page=8):
+    builder = InlineKeyboardBuilder()
+
+    start = page * per_page
+    end = start + per_page
+    chunk = results[start:end]
+
+    for a in chunk:
+        builder.row(build_search_button(a))
+
+    total_pages = (len(results) + per_page - 1) // per_page
+
+    nav_buttons = []
+    if page > 0:
+        nav_buttons.append(
+            InlineKeyboardButton(
+                text="⬅️",
+                callback_data=SearchPagination(query=query, page=page - 1).pack(),
+            )
+        )
+    nav_buttons.append(
+        InlineKeyboardButton(
+            text=f"{page + 1}/{total_pages}", callback_data="search_page:ignore"
+        )
+    )
+    if end < len(results):
+        nav_buttons.append(
+            InlineKeyboardButton(
+                text="➡️",
+                callback_data=SearchPagination(query=query, page=page + 1).pack(),
             )
         )
 

@@ -92,7 +92,7 @@ async def fetch_anime_by_id(anime_id: int):
     return normalize_anime(animes[0])
 
 
-async def fetch_anime_search(query: str):
+async def fetch_anime_search(query: str, limit: int = 99):
     gql = f"""
     query($search: String, $limit: Int) {{
         animes(search: $search, limit: $limit) {{
@@ -100,7 +100,7 @@ async def fetch_anime_search(query: str):
         }}
     }}
     """
-    data = await graphql_request(gql, {"search": query, "limit": 10})
+    data = await graphql_request(gql, {"search": query, "limit": limit})
     animes = data.get("animes", [])
     if not animes:
         return None

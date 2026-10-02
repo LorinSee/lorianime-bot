@@ -3,10 +3,14 @@ import traceback
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
+from aiogram.types import CallbackQuery, Message
 
 from app.api import fetch_anime_by_id, fetch_anime_search
-from app.keyboards import build_cancel_keyboard, build_search_button
+from app.keyboards import (
+    SearchPagination,
+    build_cancel_keyboard,
+    build_search_results_keyboard,
+)
 from app.sender import send_anime
 
 router = Router()
@@ -26,30 +30,23 @@ async def search_start(message: Message, state: FSMContext):
 
 @router.message(SearchStates.waiting_for_query)
 async def search_process(message: Message, state: FSMContext):
-    try:
-        query = message.text
-        await state.clear()
+    query = message.text
+    await state.clear()
 
-        if not query or len(query) < 3:
-            await message.answer("Слишком короткий запрос, введи хотя бы 3 символа")
-            return
+    if not query or len(query) < 3:
+        await message.answer("Слишком короткий запрос, введи хотя бы 3 символа")
+        return
 
-        results = await fetch_anime_search(query)
-        print("RESULTS:", results)
+    results = await fetch_anime_search(query)
+    if not results:
+        await message.answer(f"По запросу «{query}» ничего не найдено")
+        return
 
-        if not results:
-            await message.answer(f"По запросу «{query}» ничего не найдено")
-            return
-
-        keyboard = InlineKeyboardMarkup(
-            inline_keyboard=[[build_search_button(a)] for a in results]
-        )
-        await message.answer(
-            f"<b>Найдено {len(results)}:</b>", parse_mode="HTML", reply_markup=keyboard
-        )
-    except Exception as e:
-        print("ОШИБКА SEARCH:", type(e).__name__, e)
-        traceback.print_exc()
+    await message.answer(
+        f"<b>Найдено {len(results)}:</b>",
+        parse_mode="HTML",
+        reply_markup=build_search_results_keyboard(results, query, page=0),
+    )
 
 
 @router.callback_query(F.data == "cancel_search")
@@ -79,3 +76,19 @@ async def search_result_callback(callback: CallbackQuery):
     except Exception as e:
         print("ОШИБКА:", type(e).__name__, e)
         traceback.print_exc()
+
+
+@router.callback_query(SearchPagination.filter())
+async def search_pagination(callback: CallbackQuery, callback_data: SearchPagination):
+    query = callback_data.query
+    page = callback_data.page
+
+    results = await fetch_anime_search(query)
+    if not results:
+        await callback.answer("Ничего не найдено", show_alert=True)
+        return
+
+    await callback.message.edit_reply_markup(
+        reply_markup=build_search_results_keyboard(results, query, page)
+    )
+    await callback.answer()
