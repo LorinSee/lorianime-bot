@@ -1,7 +1,12 @@
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 
 from app.db import get_user, get_user_stats, update_bio, update_display_name
 from app.keyboards import (
@@ -150,3 +155,31 @@ async def process_bio(message: Message, state: FSMContext):
         parse_mode="HTML",
         reply_markup=build_profile_keyboard(),
     )
+
+
+@router.callback_query(F.data == "show_favorites")
+async def show_favorites(callback: CallbackQuery):
+    from app.db import get_favorites
+
+    favorites = await get_favorites(callback.from_user.id)
+    if not favorites:
+        await callback.answer("У тебя пока пусто", show_alert=True)
+        return
+
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=fav["title"][:60],
+                    callback_data=f"search:{fav['anime_id']}",
+                )
+            ]
+            for fav in favorites[:20]
+        ]
+    )
+    await callback.message.answer(
+        f"<b>Избранное ({len(favorites)}):</b>",
+        parse_mode="HTML",
+        reply_markup=keyboard,
+    )
+    await callback.answer()

@@ -1,13 +1,25 @@
 from aiogram.types import LinkPreviewOptions
 
+from app.db import is_favorite
 from app.keyboards import build_main_keyboard
 from app.utils import build_caption, get_image_url
 
 
-async def send_anime(target, anime, source="random", chat_id=None, genre_id=None):
+async def send_anime(
+    target, anime, source="random", chat_id=None, genre_id=None, user_id=None
+):
     caption = build_caption(anime)
     image_url = get_image_url(anime)
-    keyboard = build_main_keyboard(anime.get("id"), source=source, genre_id=genre_id)
+    anime_id = anime.get("id")
+
+    if user_id is not None:
+        fav = await is_favorite(user_id, anime_id)
+    else:
+        fav = False
+
+    keyboard = build_main_keyboard(
+        anime_id, source=source, genre_id=genre_id, is_fav=fav
+    )
 
     print("ОТПРАВЛЯЮ:", anime.get("russian") or anime.get("name"), anime.get("score"))
 

@@ -30,8 +30,12 @@ class SearchPagination(CallbackData, prefix="search_page"):
     page: int
 
 
-def build_main_keyboard(anime_id, source="random", genre_id=None):
+def build_main_keyboard(anime_id, source="random", genre_id=None, is_fav=False):
     buttons = []
+
+    fav_text = "Убрать из избранного" if is_fav else "В избранное"
+    fav_action = "remove" if is_fav else "add"
+    fav_callback = f"fav:{fav_action}:{source}:{anime_id}"
 
     if source == "search":
         buttons.append(
@@ -49,7 +53,6 @@ def build_main_keyboard(anime_id, source="random", genre_id=None):
                 )
             ]
         )
-
         if genre_id is not None:
             buttons.append(
                 [
@@ -69,6 +72,10 @@ def build_main_keyboard(anime_id, source="random", genre_id=None):
         buttons.append(
             [InlineKeyboardButton(text="Ещё аниме", callback_data="more_anime")]
         )
+
+    buttons.insert(
+        -1, [InlineKeyboardButton(text=fav_text, callback_data=fav_callback)]
+    )
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
@@ -106,6 +113,7 @@ def build_search_button(anime):
 def build_profile_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[
+            [InlineKeyboardButton(text="Избранное", callback_data="show_favorites")],
             [InlineKeyboardButton(text="Настройки", callback_data="profile:settings")],
         ]
     )

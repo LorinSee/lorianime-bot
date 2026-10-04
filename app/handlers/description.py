@@ -4,6 +4,7 @@ from aiogram import F, Router
 from aiogram.types import CallbackQuery, LinkPreviewOptions
 
 from app.api import fetch_anime_by_id
+from app.db import is_favorite
 from app.keyboards import build_back_keyboard, build_main_keyboard
 from app.utils import build_caption, clean_description
 
@@ -61,7 +62,8 @@ async def back_callback(callback: CallbackQuery):
 
         from_search = source == "search"
         caption = build_caption(anime)
-        keyboard = build_main_keyboard(anime_id, source=source)
+        fav = await is_favorite(callback.from_user.id, anime_id)
+        keyboard = build_main_keyboard(anime_id, source=source, is_fav=fav)
 
         if callback.message.photo:
             await callback.message.edit_caption(

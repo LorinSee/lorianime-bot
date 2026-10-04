@@ -71,7 +71,13 @@ async def search_result_callback(callback: CallbackQuery):
         except Exception as e:
             print("Не удалось удалить сообщение:", e)
 
-        await send_anime(callback.bot, anime, source="search", chat_id=chat_id)
+        await send_anime(
+            callback.bot,
+            anime,
+            source="search",
+            chat_id=chat_id,
+            user_id=callback.from_user.id,
+        )
         await callback.answer()
     except Exception as e:
         print("ОШИБКА:", type(e).__name__, e)

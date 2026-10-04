@@ -54,7 +54,7 @@ async def more_anime_callback(callback: CallbackQuery):
         if anime is None:
             await callback.answer("Сервер не доступен, попробуй позже")
             return
-        await send_anime(callback.message, anime)
+        await send_anime(callback.message, anime, user_id=callback.from_user.id)
         await callback.answer()
     except Exception as e:
         print("ОШИБКА:", type(e).__name__, e)
@@ -96,7 +96,13 @@ async def genre_pick(callback: CallbackQuery):
 
     anime = await fetch_anime_by_id(anime.get("id"))
 
-    await send_anime(callback.message, anime, source="genre", genre_id=genre_id)
+    await send_anime(
+        callback.message,
+        anime,
+        source="genre",
+        genre_id=genre_id,
+        user_id=callback.from_user.id,
+    )
     await callback.answer()
 
 
@@ -112,7 +118,13 @@ async def more_genre_callback(callback: CallbackQuery):
 
         anime = await fetch_anime_by_id(anime.get("id"))
 
-        await send_anime(callback.message, anime, source="genre", genre_id=genre_id)
+        await send_anime(
+            callback.message,
+            anime,
+            source="genre",
+            genre_id=genre_id,
+            user_id=callback.from_user.id,
+        )
         await callback.answer()
     except Exception as e:
         print("ОШИБКА:", type(e).__name__, e)
