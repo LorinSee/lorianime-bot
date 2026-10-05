@@ -36,7 +36,6 @@ def build_profile_text(user, stats):
         f"<b>Имя:</b> {display_name}\n"
         f"<b>О себе:</b> {bio}\n"
         f"<b>Дата регистрации:</b> {created}\n\n"
-        f"<b>Аниме в списках:</b> {stats['anime_count']}\n"
         f"<b>В избранном:</b> {stats['fav_count']}"
     )
 
